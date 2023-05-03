@@ -5,7 +5,6 @@ os.environ["OMP_NUM_THREADS"] = "1"
 import importlib
 from utils.hparams import set_hparams, hparams
 
-
 def binarize():
     binarizer_cls = hparams.get("binarizer_cls", 'basics.base_binarizer.BaseBinarizer')
     pkg = ".".join(binarizer_cls.split(".")[:-1])

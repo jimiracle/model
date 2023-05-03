@@ -72,21 +72,21 @@ def run_clip(svc_model, key, acc, use_pe, use_crepe, thre, use_gt_mel, add_noise
 
 
 if __name__ == '__main__':
-    # 工程文件夹名，训练时用的那个
-    project_name = "yilanqiu"
+    # training에 사용된 프로젝트 폴더 이름
+    project_name = "minsu"
     model_path = f'./checkpoints/{project_name}/model_ckpt_steps_246000.ckpt'
     config_path = f'./checkpoints/{project_name}/config.yaml'
 
-    # 支持多个wav/ogg文件，放在raw文件夹下，带扩展名
-    file_names = ["青花瓷.wav"]
-    trans = [0]  # 音高调整，支持正负（半音），数量与上一行对应，不足的自动按第一个移调参数补齐
-    # 加速倍数
+    # wav와 ogg 오디오 파일 형식 지원 / 확장자와 함께 원시 폴더에 넣기.
+    file_names = ["afterlike_input.wav"]
+    trans = [0]  # 피치 조정
+    # accelerate rate
     accelerate = 20
     hubert_gpu = True
     format='flac'
     step = int(model_path.split("_")[-1].split(".")[0])
 
-    # 下面不动
+    # 아래로 이동하지 말 것.
     infer_tool.mkdir(["./raw", "./results"])
     infer_tool.fill_a_to_b(trans, file_names)
 
@@ -96,3 +96,4 @@ if __name__ == '__main__':
             f_name += ".wav"
         run_clip(model, key=tran, acc=accelerate, use_crepe=True, thre=0.05, use_pe=True, use_gt_mel=False,
                  add_noise_step=500, f_name=f_name, project_name=project_name, format=format)
+

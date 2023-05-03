@@ -16,6 +16,7 @@ import torchcrepe
 import webrtcvad
 from scipy.ndimage.morphology import binary_dilation
 from skimage.transform import resize
+import pyworld as world
 
 from utils import audio
 from utils.pitch_utils import f0_to_coarse
@@ -184,6 +185,35 @@ def get_pitch_parselmouth(wav_data, mel, hparams):
     # f0 = f0[:len(mel)]
     pad_size=(int(len(wav_data) // hparams['hop_size']) - len(f0) + 1) // 2
     f0 = np.pad(f0,[[pad_size,len(mel) - len(f0) - pad_size]], mode='constant')
+    pitch_coarse = f0_to_coarse(f0, hparams)
+    return f0, pitch_coarse
+
+def get_pitch_world(wav_data, mel, hparams):
+    """
+
+    :param wav_data: [T]
+    :param mel: [T, 80]
+    :param hparams:
+    :return:
+    """
+    time_step = 1000 * hparams['hop_size'] / hparams['audio_sample_rate']
+    f0_min = hparams['f0_min']
+    f0_max = hparams['f0_max']
+
+    # Here's to hoping it uses numpy stuff !
+    f0, _ = world.harvest(wav_data.astype(np.double), hparams['audio_sample_rate'], f0_min, f0_max, time_step)
+
+    # Change padding
+    len_diff = len(mel) - len(f0)
+    if len_diff > 0:
+        pad_len = (len_diff + 1) // 2
+        f0 = np.pad(f0, [[pad_len, len_diff - pad_len]])
+    else:
+        pad_len = (1 - len_diff) // 2
+        rpad = pad_len + len_diff
+        if rpad != 0:
+            f0 = f0[pad_len:rpad]
+        f0 = f0[pad_len:]
     pitch_coarse = f0_to_coarse(f0, hparams)
     return f0, pitch_coarse
 

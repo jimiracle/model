@@ -20,18 +20,18 @@ logging.getLogger('numba').setLevel(logging.WARNING)
 def voice_change_model():
     request_form = request.form
     wave_file = request.files.get("sample", None)
-    # 变调信息
+    # transpose
     f_pitch_change = float(request_form.get("fPitchChange", 0))
-    # DAW所需的采样率
+    # DAW에서 요구하는 sample rate
     daw_sample = int(float(request_form.get("sampleRate", 0)))
     speaker_id = int(float(request_form.get("sSpeakId", 0)))
-    # http获得wav文件并转换
+    # http wav 파일 가져오기 및 반환
     input_wav_path = io.BytesIO(wave_file.read())
-    # 模型推理
+    # 모델 추론
     _f0_tst, _f0_pred, _audio = model.infer(input_wav_path, key=f_pitch_change, acc=accelerate, use_pe=False,
                                             use_crepe=False)
     tar_audio = librosa.resample(_audio, hparams["audio_sample_rate"], daw_sample)
-    # 返回音频
+    # 오디오 반환
     out_wav_path = io.BytesIO()
     soundfile.write(out_wav_path, tar_audio, daw_sample, format="wav")
     out_wav_path.seek(0)
@@ -39,16 +39,16 @@ def voice_change_model():
 
 
 if __name__ == '__main__':
-    # 工程文件夹名，训练时用的那个
+    # training에 사용되는 프로젝트 폴더 이름
     project_name = "firefox"
     model_path = f'./checkpoints/{project_name}/model_ckpt_steps_188000.ckpt'
     config_path = f'./checkpoints/{project_name}/config.yaml'
 
-    # 加速倍数
+    # accelerate rate
     accelerate = 50
     hubert_gpu = True
 
     model = Svc(project_name, config_path, hubert_gpu, model_path)
 
-    # 此处与vst插件对应，不建议更改
+    # vst 플러그인; 변경하지 않는 것이 좋음.
     app.run(port=6842, host="0.0.0.0", debug=False, threaded=False)
