@@ -5,9 +5,8 @@
 
 
 # 🛸 Diff-SVC Colab Training Tutorial
-[바로가기](diff-svc-colab/README.md)
+[**바로가기**](diff-svc-colab/README.md)
 
-<br>
 
 # 🚀 Diff-SVC Local Training Tutorial
 
