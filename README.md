@@ -12,15 +12,13 @@
 - [**Official - prophesier/diif-svc**](https://github.com/prophesier/diff-svc)
 - [**Updated - UtaUtaUtau/diff-svc**](https://github.com/UtaUtaUtau/diff-svc)
 
-Official 레포지토리보다는 UtaUtaUtau 레포지토리를 fork하기를 매우 추천함. (pitch를 더 보정해 깔끔한 오디오 파일이 출력되도록 업데이트되어 있기 때문임.)
+Official 레포지토리보다는 UtaUtaUtau 레포지토리를 fork하기를 매우 추천함.
+(pitch를 더 보정해 깔끔한 오디오 파일이 출력되도록 업데이트되어 있기 때문임.)
 
 UtaUtaUtau 레포지토리 코드를 사용한다면, [pyworld](https://pypi.org/project/pyworld/) 패키지를 0.3.1 버전으로 설치하길 바람.
-
 (fork한 후, requirements.txt에 pyworld==0.3.1 적길 바람. 소스 레포에서는, requirements_short.txt에 버전 없이 pyworld라고 적혀 있음.)
 
 yaiconwithminsu/model 레포지토리에서는, diff-svc-local 폴더를 fork하면 됨. 
-
-colab으로 모델 훈련하고 싶다면, diff-svc-colab 폴더를 fork하면 됨.
 
 ## 2. conda 환경 구축하기 (Setting up the Environment)
 
