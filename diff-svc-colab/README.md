@@ -1,4 +1,3 @@
-
 # 🛸 Diff-SVC Colab Training Tutorial
 
 ## Data
@@ -37,4 +36,3 @@ Required : 전 학습으로 부터 얻어진 .ckpt file/config file이 필요
 * (colab의 경우 40~60분의 데이터 전처리가 오래걸려서 처음 4-A를 실행할때 save_binary_to_gd를 체크하는 것을 추천)
 
 <br>
- 
