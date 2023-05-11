@@ -1,10 +1,13 @@
 # 🎵 노래민수야고마워
 > Diff-SVC 모델를 사용해 노래의 음성을 원하는 음성로 변환하는 프로젝트
 
-<br>
-
 # 👀 Preview
 
+
+# 🛸 Diff-SVC Colab Training Tutorial
+[바로가기](diff-svc-colab/README.md)
+
+<br>
 
 # 🚀 Diff-SVC Local Training Tutorial
 
