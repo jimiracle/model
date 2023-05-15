@@ -3,6 +3,14 @@
 
 # 👀 Preview
 
+### 주호민 버전 재즈
+<audio src="preview/joohomin_jazz_input.mp3" controls preload="metadata"></audio>
+
+### 침착맨 버전 재즈 (Diff-SVC)
+<audio src="preview/chim_jazz_output.wav" controls preload="metadata"></audio>
+
+침착맨 말하기 데이터 15분, 노래 부르기 데이터 15분으로  
+Diff-SVC 모델을 학습해, 주호민 버전 재즈를 침착맨 버전 재즈로 변환한 결과임.
 
 # 🛸 Diff-SVC Colab Training Tutorial
 [**바로가기**](diff-svc-colab/README.md)
@@ -11,14 +19,18 @@
 # 🚀 Diff-SVC Local Training Tutorial
 
 ## 1. 레포지토리 fork하기
+
+해당 레포지토리에서는, diff-svc-local 폴더를 fork하면 됨.  
+
+처음부터 시작하고 싶다면, 
 - [**Official - prophesier/diif-svc**](https://github.com/prophesier/diff-svc)
 - [**Updated - UtaUtaUtau/diff-svc**](https://github.com/UtaUtaUtau/diff-svc)
 
-Official 레포지토리보다는 UtaUtaUtau 레포지토리를 fork하기를 매우 추천함.  (pitch를 더 보정해 깔끔한 오디오 파일이 출력되도록 업데이트되어 있기 때문임.)
+Official 레포지토리보다는 UtaUtaUtau 레포지토리를 fork하기를 매우 추천함.  
+(pitch를 더 보정해 깔끔한 오디오 파일이 출력되도록 업데이트되어 있기 때문임.)
 
-UtaUtaUtau 레포지토리 코드를 사용한다면, [pyworld](https://pypi.org/project/pyworld/) 패키지를 0.3.1 버전으로 설치하길 바람.  (fork한 후, requirements.txt에 pyworld==0.3.1 적길 바람. 소스 레포에서는, requirements_short.txt에 버전 없이 pyworld라고 적혀 있음.)
-
-yaiconwithminsu/model 레포지토리에서는, diff-svc-local 폴더를 fork하면 됨. 
+UtaUtaUtau 레포지토리 코드를 사용한다면, [pyworld](https://pypi.org/project/pyworld/) 패키지를 0.3.1 버전으로 설치하길 바람.  
+(fork한 후, requirements.txt에 pyworld==0.3.1 적길 바람. 소스 레포에서는, requirements_short.txt에 버전 없이 pyworld라고 적혀 있음.)
 
 ## 2. conda 환경 구축하기 (Setting up the Environment)
 
@@ -59,9 +71,19 @@ requirements.txt를 통해 필요한 패키지 설치하기.
 
 checkpoints 폴더 생성해서, 다운 받은 파일 넣어주면 됨.
 
-`nsf_hifigan_xxxx.zip` https://github.com/openvpi/vocoders/releases 여기서도 다운 받을 수 있음. (44.1kHz 모델 훈련하고 싶으면, nsf_hifigan(44.1kHz vocoder) 파일 꼭 다운받아야함.)
+`nsf_hifigan_xxxx.zip` https://github.com/openvpi/vocoders/releases 여기서도 다운 받을 수 있음.  
+(44.1kHz 모델 훈련하고 싶으면, nsf_hifigan(44.1kHz vocoder) 파일 꼭 다운받아야함.)
 
-`nsf_hifigan_finetune`, `nsf_hifigan_onnx` 필요 없음. 
+`nsf_hifigan_finetune`, `nsf_hifigan_onnx` 필요 없음.
+
+[Nehito-Diff-SVC_44khz.zip 다운받기](https://github.com/MLo7Ghinsan/MLo7_Diff-SVC_models/releases/tag/models) 로 들어가,   
+Nehito Pretrained Model checkpoint 파일 다운받고, 압축을 풀어 nehito_44khz라는 폴더를 만들어 넣어주기.
+
+<img src="https://github.com/yaiconwithminsu/model/assets/88659167/ee714a75-de64-4bde-a376-2129d1c2af3a"> 
+
+위와 같이, `checkpoints` 폴더 구조를 이루면 됨.
+(여기서필요한 것은 0102_xiaoma_pe, hubert, nehito_44khz, nsf_hifigan 임.  
+ *chim, minus 폴더는 개인 프로젝트 ckpt 파일을 저장하기 위한 폴더로 생성한 것임.)
 
 <img src="https://user-images.githubusercontent.com/88659167/236933872-d1016d2f-3fed-470f-95eb-2f712a714e4f.png" width="550" height="350">
 
@@ -157,6 +179,11 @@ speaker_id: {speaker_name}
 # 타깃 대상 이름
 
 work_dir: checkpoints/{speaker_name}
+
+load_ckpt: checkpoints/nehito_44khz/nehito_ckpt_steps_1000000.ckpt
+# 더 좋은 ouput을 위해, pretrained model의 ckpt 파일 불러오기 
+# nehito 같은 경우, 남자 목소리를 학습한 것으로, 남자 목소리에 더 적합함.
+# 여자 목소리는 liee 사용하길 바람. (ckpt 파일 찾아 다운로드 받길 바람.)
 ```
 
 <img src="https://user-images.githubusercontent.com/88659167/236933881-eacc86f1-7f43-4907-8c5c-50490625d68b.png" >
@@ -167,7 +194,7 @@ CREPE 알고리즘 (pitch extraction)
 
 ```bash
 use_crepe: true
-# 더 좋은 결과를 위해 true로 설정함. 빠른 전처리를 원하면 false로 설정하기.
+# 더 좋은 결과를 위해 true로 설정함. 빠른 전처리를 원하면 false로 설정하는 것이 일반적이지만,
 # 개인적으로 false로 설정하고, 빠른 학습을 지향하는 것이 좋은 것 같음. 더 좋은 결과 나오는지 잘 확인 안되는 것 같음.
 ```
 
