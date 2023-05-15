@@ -4,10 +4,10 @@
 # 👀 Preview
 
 ### 주호민 버전 재즈
-<audio src="preview/joohomin_jazz_input.mp3" controls preload="metadata"></audio>
+https://github.com/yaiconwithminsu/model/assets/88659167/9e85bc66-c9f6-45f1-94cb-4eeb27f1d375
 
 ### 침착맨 버전 재즈 (Diff-SVC)
-<audio src="preview/chim_jazz_output.wav" controls preload="metadata"></audio>
+https://github.com/yaiconwithminsu/model/assets/88659167/dc58e9cd-e33d-402a-aa3d-8ae4b8cfb1e2
 
 침착맨 말하기 데이터 15분, 노래 부르기 데이터 15분으로  
 Diff-SVC 모델을 학습해, 주호민 버전 재즈를 침착맨 버전 재즈로 변환한 결과임.
